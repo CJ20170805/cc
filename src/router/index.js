@@ -4,7 +4,7 @@ import Home from '../views/Home.vue'
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   routes: [
     {
       path: '/',
@@ -29,3 +29,14 @@ export default new Router({
     }
   ]
 })
+
+router.beforeEach((to,from, next)=>{
+  console.log(to,from);
+  if(to.path !== '/login'){
+    next({path: '/login'});
+  } else {
+    next();
+  }
+})
+
+export default router

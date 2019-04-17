@@ -5,13 +5,16 @@ const instace = axios.create({
   baseURL: baseUrl,
   timeout: 5000,
   headers:{
-    'Content-Type':'application/x-www-form-urlencoded'
+    // 'Content-Type':'application/x-www-form-urlencoded'
+    'Content-Type': 'application/json'
   },
   withCredentials: true
 });
 
 instace.interceptors.request.use(
   config => {
+    console.log(config);
+   
     return config;
   },
   error => {
@@ -21,6 +24,7 @@ instace.interceptors.request.use(
 
 instace.interceptors.response.use(
   res => {
+    console.log(res);
     return res;
   },
   error => {
