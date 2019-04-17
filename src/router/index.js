@@ -31,12 +31,17 @@ const router = new Router({
 })
 
 router.beforeEach((to,from, next)=>{
-  console.log(to,from);
+
+  let GetToken = localStorage.getItem('USER_TOKEN');
+
+  console.log(to,from, GetToken);
+
   if(to.path !== '/login'){
     next({path: '/login'});
   } else {
     next();
   }
+  
 })
 
 export default router

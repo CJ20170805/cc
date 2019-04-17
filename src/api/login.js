@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 
-export function loginRequest (username, password) {
+export function loginApi(username, password) {
   return request({
     url: '/api/login',
     method: 'post',

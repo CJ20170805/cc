@@ -1,25 +1,32 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { loginRequest } from '@/api/login'
 import * as types from './mutions_types'
+import { loginApi } from '../api/login';
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    loginData: ''
+    token: ''
   },
   mutations: {
-    [types.SET_LOGIN_DATA]: (state, data) => {
-      state.loginData = data
+    [types.SET_LOGIN_TOKEN]: (state, token) => {
+      state.token = token
     }
   },
   actions: {
-    getLoginData({commit},userInfo) {
+    login({commit}, userInfo) {
+
       let un = userInfo.username;
       let pw = userInfo.password;
-      loginRequest(un,pw).then(res => {
-        commit(types.SET_LOGIN_DATA, res.data)
+
+      loginApi(un,pw).then(res => {
+        if(res.data.code == 200){
+          commit(types.SET_LOGIN_TOKEN, res.data.token);
+          localStorage.setItem('USER_TOKEN', res.data.token);
+        } else {
+          console.log('LoginError:', res.data);
+        }
       })
     }
   }

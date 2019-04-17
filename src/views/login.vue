@@ -2,8 +2,8 @@
   <div>
     <input type="text" v-model="userInfo.username" name="username" id="un">
     <input type="password" v-model="userInfo.password" name="password" id="pw">
-    <button @click="getLoginData(userInfo)">login</button>
-    <h1>{{loginData}}</h1>
+    <button @click="login(userInfo)">login</button>
+    <h1>{{token}}</h1>
   </div>
 </template>
 <script>
@@ -21,12 +21,12 @@ export default {
   },
   computed: {
     ...mapState({
-      loginData: 'loginData'
+      token: 'token'
     })
   },
   methods: {
     ...mapActions({
-      getLoginData: 'getLoginData'
+      login: 'login'
     })
   },
   created () {

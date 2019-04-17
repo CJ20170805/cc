@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { baseUrl } from '../config/base'
+import store from '../store'
 
 const instace = axios.create({
   baseURL: baseUrl,
@@ -13,7 +14,11 @@ const instace = axios.create({
 
 instace.interceptors.request.use(
   config => {
-    console.log(config);
+    let token = store.state.token;
+    if(token){
+      config.headers['Authorization'] = token;
+    }
+    console.log(config,'lalala');
    
     return config;
   },
