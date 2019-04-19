@@ -15,19 +15,22 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    login({commit}, userInfo) {
+    async login({commit}, userInfo) {
 
-      let un = userInfo.username;
-      let pw = userInfo.password;
+      let un = userInfo.un;
+      let pw = userInfo.pw;
+
+     return new Promise((resolve,reject)=>{
 
       loginApi(un,pw).then(res => {
-        if(res.data.code == 200){
           commit(types.SET_LOGIN_TOKEN, res.data.token);
           localStorage.setItem('USER_TOKEN', res.data.token);
-        } else {
-          console.log('LoginError:', res.data);
-        }
-      })
+          resolve(res.data);
+        }).catch(err => {
+          reject(err);
+        })
+
+     })
     }
   }
 })

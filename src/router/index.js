@@ -5,6 +5,7 @@ import Home from '../views/Home.vue'
 Vue.use(Router)
 
 const router = new Router({
+  mode: 'history',
   routes: [
     {
       path: '/',
@@ -25,7 +26,20 @@ const router = new Router({
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "login" */ '../views/login.vue')
+      component: () => import(/* webpackChunkName: "user" */ '../views/login.vue')
+    },
+    {
+      path: '/regist',
+      name: 'regist',
+      // route level code-splitting
+      // this generates a separate chunk (about.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import(/* webpackChunkName: "user" */ '../views/regist.vue')
+    },
+    {
+      path: '*',
+      name: '404',
+      component: () => import('../views/404.vue')
     }
   ]
 })
@@ -36,11 +50,25 @@ router.beforeEach((to,from, next)=>{
 
   console.log(to,from, GetToken);
 
-  if(to.path !== '/login'){
-    next({path: '/login'});
-  } else {
+  // if(to.path !== '/login'){
+  //   next({path: '/login'});
+  // } else {
+  //   next();
+  // }
+  let whiteList = ['/regist','/login','/','/404'];
+
+  if(GetToken){
     next();
+  } else {   // No token
+
+    if(whiteList.indexOf(to.path) !== -1){
+      next();
+    } else {
+      next('/login')
+    }
   }
+
+  
   
 })
 

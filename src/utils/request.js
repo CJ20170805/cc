@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { baseUrl } from '../config/base'
-import store from '../store'
+// import store from '../store'
 
 const instace = axios.create({
   baseURL: baseUrl,
@@ -14,11 +14,15 @@ const instace = axios.create({
 
 instace.interceptors.request.use(
   config => {
-    let token = store.state.token;
-    if(token){
+    // let token = store.state.token;
+    let token = localStorage.getItem('USER_TOKEN');
+
+    let whiteList = ['/api/login', '/api/regist'];
+
+    if(token && whiteList.indexOf(config.url) === -1){
       config.headers['Authorization'] = token;
     }
-    console.log(config,'lalala');
+    // console.log(config,'lalala');
    
     return config;
   },
@@ -29,7 +33,7 @@ instace.interceptors.request.use(
 
 instace.interceptors.response.use(
   res => {
-    console.log(res);
+    // console.log(res);
     return res;
   },
   error => {
